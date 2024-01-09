@@ -18,12 +18,12 @@
             <form action="{% url "add_to_watchlist" index %}">
                 {% if user in listing.watchlisters.all %}
                     <button type="submit" style="position: absolute;background: none;border: none;">
-                        <img src="{% static 'auctions/Images/../../static/auctions/Images/46383ec.png' %}" alt="heart"
+                        <img src="{% static 'auctions/Images/46383ec.png' %}" alt="heart"
                              style="height: 48px; width: 48px"/>
                     </button>
                 {% else %}
                     <button type="submit" style="position: absolute;background: none;border: none;">
-                        <img src="{% static 'auctions/Images/../../static/auctions/Images/73814.png' %}" alt="empty-heart"
+                        <img src="{% static 'auctions/Images/73814.png' %}" alt="empty-heart"
                              style="height: 48px; width: 48px"/>
                     </button>
                 {% endif %}
@@ -170,18 +170,18 @@
                                         <form action="{% url "like" index comment.id %}">
                                             {% if user in comment.likers.all %}
                                                 <button type="submit" style="background: none;border: none;">
-                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/icon-like.png' %}" alt="like"
+                                                    <img src="{% static 'auctions/Images/icon-like.png' %}" alt="like"
                                                          style="height: 18px; width: 18px"/>
                                                 </button>
                                             {% else %}
                                                 <button type="submit" style="background: none;border: none;">
-                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="empty-like"
+                                                    <img src="{% static 'auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="empty-like"
                                                          style="height: 18px; width: 18px"/>
                                                 </button>
                                             {% endif %}
                                         </form>
                                     {% else %}
-                                        <img src="{% static 'auctions/Images/../../static/auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="like" style="height: 18px; width: 18px"/>
+                                        <img src="{% static 'auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="like" style="height: 18px; width: 18px"/>
                                     {% endif %}
                                 </div>
                             </div>
@@ -194,18 +194,18 @@
                                         <form action="{% url "dislike" index comment.id %}">
                                             {% if user in comment.dislikers.all %}
                                                 <button type="submit" style="background: none;border: none;">
-                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/6787939.png' %}" alt="dislike"
+                                                    <img src="{% static 'auctions/Images/6787939.png' %}" alt="dislike"
                                                          style="height: 18px; width: 18px"/>
                                                 </button>
                                             {% else %}
                                                 <button type="submit" style="background: none;border: none;">
-                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/126504.png' %}" alt="empty-dislike"
+                                                    <img src="{% static 'auctions/Images/126504.png' %}" alt="empty-dislike"
                                                          style="height: 18px; width: 18px"/>
                                                 </button>
                                             {% endif %}
                                         </form>
                                     {% else %}
-                                        <img src="{% static 'auctions/Images/../../static/auctions/Images/126504.png' %}" alt="dislike"
+                                        <img src="{% static 'auctions/Images/126504.png' %}" alt="dislike"
                                              style="height: 18px; width: 18px"/>
                                     {% endif %}
                                 </div>
