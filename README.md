@@ -57,3 +57,8 @@ go to the local host address: http://127.0.0.1:8000/
     ```
 
 go to the local host address: http://127.0.0.1:8000/
+
+##### admin site
+admin site name and password from .env:
+    SUPER_USER_NAME='admin'
+    SUPER_USER_PASSWORD='admin'
