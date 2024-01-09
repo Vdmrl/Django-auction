@@ -1,10 +1,10 @@
 # Django MVC online auction 
 
-### Description
+## Description
 
 Project hosted locally using Gunicorn and Nginx containers.
 
-##### Main features:
+### Main features:
 + Frontend using django templates
 + Admin panel using Django admin
 + User authentication user Django authentication
@@ -16,9 +16,9 @@ Project hosted locally using Gunicorn and Nginx containers.
 + Adding lots to the vishlist
 + Viewing lots by categories
 
-### Opening the project
+## Opening the project
 
-##### Using Docker compose
+### Using Docker compose
 
 + Run services
 
@@ -34,7 +34,7 @@ Project hosted locally using Gunicorn and Nginx containers.
 
 go to the local host address: http://127.0.0.1:8000/
 
-##### Using python virtual machine
+### Using python virtual machine
 
 1. Create a [Python virtual environment](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) and activate it.
 
@@ -58,8 +58,8 @@ go to the local host address: http://127.0.0.1:8000/
 
 go to the local host address: http://127.0.0.1:8000/
 
-##### admin site
-admin site name and password from .env:
+## Admin 
+admin site name and password from .env
 
 SUPER_USER_NAME='admin'
 
