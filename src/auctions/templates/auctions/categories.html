@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    <div style="display: flex; flex-wrap: wrap;">
+        {% for category in categories %}
+            <!--change reference-->
+            <a href="{% url "category" category.category %}" style="text-decoration: inherit; color: inherit; margin-right: 20px; margin-left: 20px; margin-bottom: 20px;">
+                <div style="display: flex; width: 800px; text-align: center; border-color: #e4e4e4; border-width: 1px; border-style: solid; border-radius: 10px;">
+                    <div style="text-align: left">
+                        <img src="{{ category.image.url }}" alt="{{ category.category }}"
+                             style="border-bottom-left-radius: 10px; border-top-left-radius: 10px; width: 200px; height: 200px">
+                    </div>
+                    <div style="display: flex; flex-direction:column; text-align: left; width: 595px; margin-left: 5px; padding-right: 8px;">
+                        <div style="font-size: 20px">
+                            <strong>
+                                {% if category.category.capitalize|length > 32 %}
+                                    {{ category.category.capitalize|truncatechars:32 }}
+                                {% else %}
+                                    {{ category.category.capitalize }}
+                                {% endif %}
+                            </strong>
+                        </div>
+                        <div style="word-wrap: break-word;">
+                            {% if category.description|length > 250 %}
+                                {{ category.description.capitalize|truncatechars:250 }}
+                            {% else %}
+                                {{ category.description.capitalize }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

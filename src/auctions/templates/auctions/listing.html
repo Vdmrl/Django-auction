@@ -1,0 +1,221 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block body %}
+    <!-- Name -->
+    <div>
+        <h2 style="display: inline-block">
+            Listing: {{ listing.name.capitalize }}
+        </h2>
+        {% if listing.is_closed %}
+            <div style="display: inline-block; font-size: 24px; color: tomato">
+                Closed
+            </div>
+        {% endif %}
+    </div>
+    <!-- Image + watchlist -->
+    <div>
+        {% if user.is_authenticated %}
+            <form action="{% url "add_to_watchlist" index %}">
+                {% if user in listing.watchlisters.all %}
+                    <button type="submit" style="position: absolute;background: none;border: none;">
+                        <img src="{% static 'auctions/Images/../../static/auctions/Images/46383ec.png' %}" alt="heart"
+                             style="height: 48px; width: 48px"/>
+                    </button>
+                {% else %}
+                    <button type="submit" style="position: absolute;background: none;border: none;">
+                        <img src="{% static 'auctions/Images/../../static/auctions/Images/73814.png' %}" alt="empty-heart"
+                             style="height: 48px; width: 48px"/>
+                    </button>
+                {% endif %}
+            </form>
+        {% endif %}
+        <img src="{{ listing.image.url }}" alt="{{ listing.name }}" style="max-width: 1000px; max-height: 1000px">
+    </div>
+    <!-- Description -->
+    <div style="font-size: 16px; padding-top: 10px">
+        {{ listing.description.capitalize }}
+    </div>
+    <!-- Price -->
+    <div style="padding-top: 20px">
+        <h2>
+            {{ listing.price.current_price }}
+        </h2>
+    </div>
+    <!--Bidding-->
+    {% if user.is_authenticated %}
+        {% if not listing.is_closed %}
+            {% if user == listing.creator %}
+                <div>
+                    You can't bid in your own listing
+                </div>
+            {% else %}
+                <div>
+                    <div style="font-size: 14px">
+                        {% if listing.price.bids_amount == 0 %}
+                            No bids so far.
+                        {% else %}
+                            {{ listing.price.bids_amount }} bid(s) so far.
+                            {{ bidder }} bid is the current bid.
+                        {% endif %}
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ bid_form }}
+                        <div style="margin-top: 5px">
+                            <input type="submit" value="Place Bid">
+                        </div>
+                    </form>
+                    {% if price_message %}
+                        <strong>
+                            {{ price_message }}
+                        </strong>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        {% elif user == listing.current_bidder %}
+            <div>
+                Congratulation! You win auction!
+            </div>
+        {% elif user == listing.creator %}
+            <div>
+                You closed the auction
+            </div>
+        {% else %}
+            <div>
+                Auction is over. No more bids.
+                The winner is {{ listing.current_bidder }}
+            </div>
+        {% endif %}
+    {% endif %}
+    <!-- Details -->
+    <div>
+        <h3>
+            Details
+        </h3>
+        <ul style="font-size: 16px">
+            <li>
+                Created: <strong>{{ listing.creation_date.capitalize }}</strong>
+            </li>
+            <li>
+                Listed by: <strong>{{ listing.creator.username }}</strong>
+            </li>
+            <li>
+                Categories:
+                <strong>
+                    {% for ctg in listing.categories.all %}
+                        {{ ctg.category.capitalize }}
+                    {% endfor %}
+                </strong>
+            </li>
+            <li>
+                Starting bid: <strong>{{ listing.price.initial_price }}</strong>
+            </li>
+        </ul>
+    </div>
+    {% if is_creator and user.is_authenticated and not listing.is_closed and listing.price.bids_amount != 0 %}
+        <div>
+            <form action="{% url "close_listing" listing.id %}">
+                <button type="submit">
+                    Close the auction
+                </button>
+            </form>
+        </div>
+    {% endif %}
+    <!-- Comments section -->
+    <div>
+        <h2>
+            {{ comments | length }} Comments
+        </h2>
+        <!-- write comment -->
+        {% if user.is_authenticated %}
+            <form method="post" enctype="multipart/form-data">
+                <div>
+                    {% csrf_token %}
+                    {{ comment_form }}
+                </div>
+                <input class="btn btn-primary" type="submit" value="Leave a comment">
+            </form>
+        {% endif %}
+        <!-- read comments -->
+        {% for comment in comments %}
+            <div style="width: 1000px; text-align: center; border-color: #e4e4e4; border-width: 1px; border-style: solid; border-radius: 10px; margin-top: 5px;">
+                <div style="display: flex; flex-direction:column; text-align: left; width: 980px; margin: 5px 20px 5px 10px;">
+                    <!-- Commentator -->
+                    <div style="font-size: 20px;">
+                        <strong style="display: inline-block;">
+                            {% if comment.commentator|length > 32 %}
+                                {{ comment.commentator|truncatechars:32 }}
+                            {% else %}
+                                {{ comment.commentator }}
+                            {% endif %}
+                        </strong>
+                    </div>
+                    <!-- Text -->
+                    <div style="word-wrap: break-word;">
+                        {{ comment.comment.capitalize }}
+                    </div>
+                    <!-- Creation data, likes and dislikes -->
+                    <div style="display: flex; justify-content: space-between; margin-top: auto; font-size: 18px;">
+                        <div style="color: #848c93; text-align: left; font-size: 16px;">
+                            {{ comment.creation_date }}
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="display: inline-block">
+                                <div style="display: inline-block">
+                                    {{ comment.likes_amount }}
+                                </div>
+                                <div style="display: inline-block">
+                                    {% if user.is_authenticated %}
+                                        <form action="{% url "like" index comment.id %}">
+                                            {% if user in comment.likers.all %}
+                                                <button type="submit" style="background: none;border: none;">
+                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/icon-like.png' %}" alt="like"
+                                                         style="height: 18px; width: 18px"/>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" style="background: none;border: none;">
+                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="empty-like"
+                                                         style="height: 18px; width: 18px"/>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    {% else %}
+                                        <img src="{% static 'auctions/Images/../../static/auctions/Images/like-icon-line-iconset-iconsmind-35.png' %}" alt="like" style="height: 18px; width: 18px"/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div style="display: inline-block">
+                                <div style="display: inline-block">
+                                    {{ comment.dislikes_amount }}
+                                </div>
+                                <div style="display: inline-block">
+                                    {% if user.is_authenticated %}
+                                        <form action="{% url "dislike" index comment.id %}">
+                                            {% if user in comment.dislikers.all %}
+                                                <button type="submit" style="background: none;border: none;">
+                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/6787939.png' %}" alt="dislike"
+                                                         style="height: 18px; width: 18px"/>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" style="background: none;border: none;">
+                                                    <img src="{% static 'auctions/Images/../../static/auctions/Images/126504.png' %}" alt="empty-dislike"
+                                                         style="height: 18px; width: 18px"/>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    {% else %}
+                                        <img src="{% static 'auctions/Images/../../static/auctions/Images/126504.png' %}" alt="dislike"
+                                             style="height: 18px; width: 18px"/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
+

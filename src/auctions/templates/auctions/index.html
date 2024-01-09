@@ -1,0 +1,67 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    {% if listings|length > 0 %}
+        <div style="display: flex; flex-wrap: wrap;">
+            {% for listing in listings %}
+                <a href="{{ listing.id }}"
+                   style="text-decoration: inherit; color: inherit; margin-right: 20px; margin-left: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; width: 800px; text-align: center; border-color: #e4e4e4; border-width: 1px; border-style: solid; border-radius: 10px;">
+                        <div style="text-align: left">
+                            <img src="{{ listing.image.url }}" alt="{{ listing.name }}"
+                                 style="border-bottom-left-radius: 10px; border-top-left-radius: 10px; width: 200px; height: 200px">
+                        </div>
+                        <div style="display: flex; flex-direction:column; text-align: left; width: 595px; margin-left: 5px; padding-right: 8px;">
+                            <div style="font-size: 20px;">
+                                <strong style="display: inline-block;">
+                                    {% if listing.name.capitalize|length > 25 %}
+                                        {{ listing.name.capitalize|truncatechars:25 }}
+                                    {% else %}
+                                        {{ listing.name.capitalize }}
+                                    {% endif %}
+                                </strong>
+                                {% if listing.is_closed %}
+                                    <div style="color: tomato;font-size: 18px;display: inline-block;">
+                                        Closed
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div style="font-size: 16px">
+                                <strong>
+                                    Price:
+                                    {{ listing.price.current_price }}
+                                </strong>
+                            </div>
+                            <div style="word-wrap: break-word;">
+                                {% if listing.description|length > 220 %}
+                                    {{ listing.description.capitalize|truncatechars:220 }}
+                                {% else %}
+                                    {{ listing.description.capitalize }}
+                                {% endif %}
+
+                            </div>
+                            <div style="color: #848c93; font-size: 13px; margin-top: auto">
+                                Created
+                                {{ listing.creation_date }}
+                                by
+                                {% if listing.username.creator|length > 32 %}
+                                    {{ listing.creator.username.capitalize|truncatechars:32 }}
+                                {% else %}
+                                    {{ listing.creator.username.capitalize }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>
+            No listings
+        </h3>
+        <div style="font-size: 18px">
+            You can create first listing in Create Listing menu
+        </div>
+    {% endif %}
+{% endblock %}
