@@ -1,13 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
     <h2>Creation</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         {% csrf_token %}
         <div class="form-group col-md-12">
             {% for field in creation_form %}
-
                 <div style="margin: 5px">
                     <label class="col-form-label font-weight-normal">
                         {{ field.label }}
@@ -20,17 +18,25 @@
         </div>
         {% csrf_token %}
         <div class="form-group col-md-12" style="margin: 5px">
-            <select name="category">
-            {% for category in categories %}
-                <option value="{{ category.id }}">{{ category }}</option>
-            {% endfor %}
-        </select>
+            <select name="category" id="categorySelect">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group col-md-12" style="margin: 5px; padding-top: 11px">
             <input type="submit" value="Publish listing">
         </div>
-
     </form>
 
-
+    <script>
+        function validateForm() {
+            var categorySelect = document.getElementById('categorySelect');
+            if (categorySelect.value === "") {
+                alert('Please select a category');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
 {% endblock %}

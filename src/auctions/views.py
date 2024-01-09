@@ -106,8 +106,8 @@ def create(request):
             description = forms.cleaned_data["description"]
             start_price = forms.cleaned_data["start_money"]
             image = forms.cleaned_data["img"]
-            category = Category.objects.get(pk=int(request.POST["category"]))
 
+            category = Category.objects.get(pk=int(request.POST["category"]))
             # Create the listing and save it
             bid = Bid.objects.create(initial_price=start_price, current_price=start_price)
             listing = Listing.objects.create(name=title, description=description, image=image, creator=request.user,
