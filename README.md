@@ -22,13 +22,13 @@ Project hosted locally using Gunicorn and Nginx containers.
 
 + Run services
 
-```shell
+    ```shell
     docker-compose up
     ```
 
 + Bring services down
 
-```shell
+    ```shell
     docker-compose down
     ```
 
@@ -46,13 +46,13 @@ go to the local host address: http://127.0.0.1:8000/
 
 3. go to the folder with manage.py
 
-```shell
+    ```shell
     cd src
     ```
 
 4. Run server using gunicorn:
 
-   ```shell
+    ```shell
     python manage.py runserver
     ```
 
