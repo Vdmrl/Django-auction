@@ -13,7 +13,7 @@ Project hosted locally using Gunicorn and Nginx containers.
 + Placing bets on other users lots
 + Closing your lots after other users bets
 + Leaving comments with likes/dislikes system
-+ Adding lots to the vishlist
++ Adding lots to the wishlist
 + Viewing lots by categories
 
 ## Opening the project
